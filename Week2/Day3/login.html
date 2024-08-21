@@ -5,13 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOGIN</title>
+    <style>
+      h1 {
+        color: red;
+        text-align: center;
+      }
+      .login_inputs {
+        font-size: 25px;
+      }
+      #login_btn {
+        font-size: 25px;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
   </head>
   <body>
-    <h1 style="color: red; text-align: center">Login</h1>
+    <h1>Login</h1>
     <form>
-      ID : <input type="text" style="font-size: 25px" /><br />
-      PW : <input type="password" style="font-size: 25px" /><br />
-      <input type="button" value="login" style="font-size:25px; width: 100px; height: 30px" />
+      ID : <input class="login_inputs" type="text" /><br />
+      PW : <input class="login_inputs" type="password" /><br />
+      <input id="login_btn" type="button" value="login" />
     </form>
   </body>
 </html>
