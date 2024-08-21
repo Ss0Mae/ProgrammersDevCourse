@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOGIN</title>
     <link rel="stylesheet" href="login.css" />
+    <script src="login.js"></script>
   </head>
   <body>
     <h1>Login</h1>
@@ -14,23 +15,5 @@
       PW : <input class="login_inputs" type="password" /><br />
       <input id="login_btn" type="button" value="login" onclick="popId()" />
     </form>
-    <script>
-      /*ID 란에 입력한 값을 팝업창에 띄우기*/
-      function popId() {
-        let userId = document.getElementById("txt_id").value;
-        if (!userId) {
-          alert("ID를 입력해 주세요");
-        } else {
-          alert(userId);
-        }
-      }
-
-      /*나만의 함수 만들고, 버튼 클릭하면 호출하기*/
-      function myFunction() {
-        alert("1");
-        alert("2");
-        alert("3");
-      }
-    </script>
   </body>
 </html>
