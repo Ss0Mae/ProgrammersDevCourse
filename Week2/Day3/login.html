@@ -17,10 +17,11 @@
     <script>
       /*ID 란에 입력한 값을 팝업창에 띄우기*/
       function popId() {
-        if (!document.getElementById("txt_id").value) {
+        let userId = document.getElementById("txt_id").value;
+        if (!userId) {
           alert("ID를 입력해 주세요");
         } else {
-          alert(document.getElementById("txt_id").value);
+          alert(userId);
         }
       }
 
