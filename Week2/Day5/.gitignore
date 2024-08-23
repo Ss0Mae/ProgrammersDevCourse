@@ -1,3 +1,5 @@
-./node_modules
-./database
-package*.json
+database/
+package-lock copy.json
+package-lock.json
+node_modules/
+package.json
