@@ -28,10 +28,30 @@ app.get('/product/:n', function (req, res) {
 
 //채널 주소 https://www.youtube.com/@15ya.fullmoon
 //채널 주소 https://www.youtube.com/@ChimChakMan_Official
-app.get('/:nickname', function (req, res) {
+// app.get('/:nickname', function (req, res) {
 
-    const param = req.params;
+//     const param = req.params;
+//     res.json({
+//         channel: param.nickname
+//     })
+// })
+
+// 영상 주소
+// 영상 주소 : https://www.youtube.com/watch?v=AjB3f0A1iaQ
+// 타임라인 주소 : https://www.youtube.com/watch?v=AjB3f0A1iaQ&t=278s
+
+
+app.get('/watch', function (req, res) {
+    const q = req.query;
+    console.log(q.v);
+    console.log(q.t);
+
+    //JSON의 비구조화
+    const { v, t } = req.query;
+    console.log(v);
+    console.log(t);
     res.json({
-        channel: param.nickname
-    })
+        video: q.v,
+        timeline : q.t
+    });
 })
