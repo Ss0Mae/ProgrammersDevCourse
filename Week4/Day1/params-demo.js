@@ -25,3 +25,13 @@ app.get('/product/:n', function (req, res) {
         num: req.params.n
     })
 })
+
+//채널 주소 https://www.youtube.com/@15ya.fullmoon
+//채널 주소 https://www.youtube.com/@ChimChakMan_Official
+app.get('/:nickname', function (req, res) {
+
+    const param = req.params;
+    res.json({
+        channel: param.nickname
+    })
+})
