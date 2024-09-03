@@ -12,19 +12,34 @@ app.get('/', function (req, res) {
 //localhost:1234/2 => Cup
 //localhost:1234/3 => Chair
 
-app.get('/:id', function (req, res) {
-    const { id } = req.params
+// app.get('/:id', function (req, res) {
+//     const { id } = req.params
     
-    if (db.get(id) === undefined) {
-        console.log("undefined Test");
+//     if (db.get(id) === undefined) {
+//         console.log("undefined Test");
+//         res.json({
+//             message: "없는 상품입니다."
+//         })
+//     } else {
+//         res.json({
+//             id: id,
+//             productName: db.get(parseInt(id))
+//         })
+//     }
+// })
+
+app.get('/:id', function (req, res) {
+    let { id } = req.params
+    id = parseInt(id);
+
+    if (db.get(id) == undefined) {
         res.json({
-            message: "없는 상품입니다."
+            message: "없는 상품입니다"
         })
     } else {
-        res.json({
-            id: id,
-            productName: db.get(parseInt(id))
-        })
+        product = db.get(id);
+        product['id'] = id;
+        res.json(product);
     }
 })
 
