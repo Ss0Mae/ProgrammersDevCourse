@@ -44,7 +44,7 @@ app.get('/youtuber/:id', function (req, res) {
 app.get('/youtubers', function (req, res) {
     let start = 0;
     res.json({
-        for(let i = 0; )
+        message: 'test'
     })
 })
 
