@@ -1,127 +1,165 @@
-## express/index.js 에서 기초 파일 확인
+# Map 안에 객체를 저장해보자
+
+![](https://velog.velcdn.com/images/ssomae/post/10a1d06a-2168-4da3-ba85-f9cdf0794641/image.png)
+
 
 ```jsx
-const express = require('express')
-const app = express()
+let db = new Map();
+let notebook = {
+    productName: "Notebook",
+    pricel : 2000000
+}
 
-// Get Method + "/"
-app.get('/', function (req, res) {
-  res.send('Hello World')
+let cup = {
+    productName: "Cup",
+    pricel : 3000
+}
+
+let chair = {
+    productName: "Chair",
+    pricel : 100000
+}
+
+let poster = {
+    productName: "Poster",
+    pricel : 20000
+}
+db.set(1, notebook); // key- value
+db.set(2, cup);
+db.set(3, chair);
+db.set(4, poster);
+
+console.log(db);
+console.log(db.get(1));
+console.log(db.get(2));
+console.log(db.get(3));
+console.log(db.get(4));
+```
+
+# 해당 객체를 이용해 get 메서드 리팩토링 해보기
+
+```jsx
+app.get('/:id', function (req, res) {
+    let { id } = req.params
+    id = parseInt(id);
+
+    if (db.get(id) == undefined) {
+        res.json({
+            message: "없는 상품입니다"
+        })
+    } else {
+        product = db.get(id);
+        product['id'] = id;
+        res.json(product);
+    }
 })
-
-// API : GET + "http://localhost:1234/test"
-// TEST SUCCESS
-app.get('/test', function (req, res) {
-  res.send('TEST SUCCESS')
-})
-
-// API : GET + "http://localhost:1234/test/1"
-// ONE
-app.get('/test/1', function (req, res) {
-  res.send('ONE!')
-})
-
-//API : GET /hello, /bye, /nicetomeetyou
-app.get('/hello', function (req, res) {
-    res.send("HELLO")
-})
-
-app.get('/bye', function (req, res) {
-    res.send("bye")
-})
-
-app.get('/nicetomeetyou', function (req, res) {
-    res.send("nicetomeetyou")
-})
-
-//GET 메소드로, /url 주소가 날라오면
-// 매개변수로 전달받은 콜백 함수를 호출하겠어 => 서버에 셋팅
-app.listen(1234)
-// 서버 셋팅: 포트 넘버 1234로 셋팅
 ```
 
 ---
 
-<aside>
-📌
-
-두 줄 이상 작성하면 전송받지 못하는 문제가 있음 → 객체로 저장해서 뭉탱이로 보내자 `JSON` 파일에
-
-</aside>
+# 유튜버 실습을 express와 map을 이용해 리팩토링 해보기
 
 ```jsx
-app.get('/product/1', function (req, res) {
-    res.send('Node.js를 배워보자 (책)');
-    res.send('20000');
+const express = require('express');
+const app = express();
+
+app.listen(1234);
+
+let youtuber1 = {
+    channelTitle: "십오야",
+    subscriber: "593만명",
+    videoNum: "993개"
+}
+
+let youtuber2 = {
+    channelTitle: "침착맨",
+    subscriber: "227만명",
+    videoNum: "6600개"
+}
+
+let youtuber3 = {
+    channelTitle: "테오",
+    subscriber: "100만명",
+    videoNum: "1100개"
+}
+
+let db = new Map();
+db.set(1, youtuber1);
+db.set(2, youtuber2);
+db.set(3, youtuber3);
+
+app.get('/youtuber/:id', function (req, res) {
+    let { id } = req.params;
+    id = parseInt(id);
+    //console.log(id);
+    if (db.get(id) === undefined) {
+        res.json({
+            message: "Wrong Access"
+        })
+    } else {
+        res.json(db.get(id));
+    }
 })
+
 ```
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/5428f7b2-4294-48af-83a5-0dbce4a61e51/b4a150ed-631a-4957-bb6d-128cb812bfa3/image.png)
+---
 
-## JSON이란
+# Express의 구조 간단하게 이해해보기
 
-<aside>
-📌
-
-JavaScript Object Notation, 데이터를 저장하거나 전송할 때 많이 사용되는 경량의 DATA 형식
-
-</aside>
+- 익스프레스는 프레임워크다.
+    - 프레임워크는 필요한 라이브러리를 모두 다 틀 안에 넣어둔다.
 
 ```jsx
-let book = {
-	title : 'Node.js를 공부해 보자',
-	price: 20000,
-	description: '좋은책이다'
-};
+> sudo npm install express-generator -g
+> express
 ```
 
-```jsx
-const express = require('express')
-const app = express()
+- 빈 폴더에서 해당 명령어를 입력하면 기본 틀이 생성된다.
 
-// 서버 셋팅: 포트 넘버 1234로 셋팅
-app.listen(1234)
+![](https://velog.velcdn.com/images/ssomae/post/60d09466-c123-4472-93f3-b5734fe45cd0/image.png)
 
-//GET 메소드로, /url 주소가 날라오면
-// 매개변수로 전달받은 콜백 함수를 호출하겠어 => 서버에 셋팅
 
-app.get('/product/:n', function (req, res) {
-    // : => URL로 매개변수를 전달해줄 건가보다.
-    // req.params
-    // product/_ 빈칸에 오는 값을 n이라는 변수에 담아줘
+### `bin/www`
 
-    // console.log(req.params);
-    // console.log(req.params.n);
-    res.json({
-        num: req.params.n
-    })
-})
-```
+- **역할**: 이 파일은 애플리케이션의 진입점입니다. 서버를 실행하는 코드가 이 파일에 들어 있으며, HTTP 서버를 생성하고 포트를 설정하는 등의 작업이 이루어집니다.
+- **상세 내용**:
+    - 서버가 시작되면서 `app.js` 파일에서 설정된 Express 애플리케이션을 가져와서 실행합니다.
+    - 포트 번호는 기본적으로 3000번으로 설정되어 있으며, 이 포트에서 서버가 동작하게 됩니다.
 
-# Node.js 기본 생태계
+### 2. `public`
 
-Node.js는 JavaScript를 서버 측에서 사용할 수 있게 해주는 런타임 환경이다. 
+- **역할**: 정적 파일(예: 이미지, CSS 파일, JavaScript 파일 등)을 제공하는 디렉토리입니다.
+- **상세 내용**:
+    - 이 디렉토리의 파일들은 `/public` 경로를 통해 클라이언트에게 직접 제공됩니다.
+    - 예를 들어, `public/stylesheets/style.css` 파일은 브라우저에서 `/stylesheets/style.css`로 접근할 수 있습니다.
 
-이 환경을 중심으로 형성된 생태계는 매우 활발하며, 개발자가 서버 애플리케이션을 효율적으로 구축, 배포, 관리할 수 있도록 다양한 도구와 패키지를 제공한다. 
+### 3. `routes`
 
-## 1. Node.js
+- **역할**: 애플리케이션의 라우트 핸들러가 위치하는 곳입니다. 라우트는 사용자가 요청한 URL에 따라 다른 기능을 수행하게 합니다.
+- **상세 내용**:
+    - `index.js`: 기본 경로 `/`에 대한 라우트를 정의합니다. 보통 홈 페이지나 기본 라우트를 처리합니다.
+    - `users.js`: `/users` 경로에 대한 라우트를 정의합니다. 사용자 관련 기능이 여기에 구현될 수 있습니다.
 
-- **런타임 환경**: Node.js는 V8 JavaScript 엔진을 기반으로 하며, 이를 통해 JavaScript를 브라우저 외부, 특히 서버 환경에서 실행할 수 있습니다.
-- **비동기 I/O**: Node.js는 비동기식 I/O 모델을 채택하여 높은 성능과 확장성을 제공합니다. 이 덕분에 많은 동시 연결을 효율적으로 처리할 수 있습니다.
+### 4. `views`
 
-## 2. NPM (Node Package Manager)
+- **역할**: 뷰 템플릿 파일이 위치하는 디렉토리입니다. Express는 뷰 엔진을 통해 HTML을 렌더링할 수 있으며, 기본적으로 Jade(현재 Pug로 명칭 변경됨) 템플릿 엔진을 사용합니다.
+- **상세 내용**:
+    - `error.jade`: 에러 페이지를 렌더링할 때 사용됩니다.
+    - `index.jade`: 기본 홈 페이지를 렌더링할 때 사용됩니다.
+    - `layout.jade`: 다른 뷰들이 공통으로 사용할 레이아웃을 정의합니다. 헤더나 푸터와 같은 공통 요소를 여기에 정의합니다.
 
-- **패키지 매니저**: NPM은 Node.js 패키지 생태계를 관리하는 도구로, 프로젝트에서 필요한 라이브러리나 툴을 쉽게 설치하고 관리할 수 있게 해줍니다.
-- **NPM 레지스트리**: 전 세계 개발자들이 공유하는 오픈 소스 패키지를 중앙 저장소에서 관리하며, 다양한 모듈과 도구를 쉽게 검색하고 사용할 수 있습니다.
-- **스크립트 관리**: NPM을 통해 프로젝트의 빌드, 테스트, 배포 등의 작업을 스크립트로 정의하고 실행할 수 있습니다.
+### 5. `app.js`
 
-## 3. 패키지 관리와 모듈화
+- **역할**: Express 애플리케이션의 주요 설정 파일입니다. 미들웨어 설정, 라우트 설정, 오류 처리기 등이 여기에 정의됩니다.
+- **상세 내용**:
+    - `express` 모듈을 가져와 애플리케이션 인스턴스를 생성합니다.
+    - `app.use`를 통해 미들웨어를 설정하고, 라우트와 뷰 엔진을 설정합니다.
+    - 여기서 정의된 설정들이 `bin/www` 파일에서 실행되어 애플리케이션을 동작하게 합니다.
 
-- **모듈 시스템**: Node.js는 CommonJS 모듈 시스템을 사용하여 파일 단위로 코드를 분리하고, `require` 키워드를 사용해 모듈을 불러옵니다.
-- **ES 모듈**: 최신 Node.js 버전에서는 ECMAScript 모듈 시스템(ESM)도 지원하며, `import`와 `export` 키워드를 사용해 모듈을 관리할 수 있습니다.
+### 6. `package.json`
 
-## 4. 주요 프레임워크 및 라이브러리
-
-- **Express**: Node.js에서 가장 널리 사용되는 웹 프레임워크로, 간단하고 유연한 API를 제공하여 서버 애플리케이션을 쉽게 구축할 수 있습니다.
-- **Koa**: Express의 창시자가 만든 차세대 웹 프레임워크로, 미들웨어 구조를 단순화하고 현대적인 JavaScript 기능을 활용하도록 설계되었습니다.
-- **NestJS**: TypeScript로 작성된 Node.js 프레임워크로, 대규모 애플리케이션을 구축하는 데 유용한 모듈, 디코레이터, 의존성 주입 등을 제공합니다.
+- **역할**: 프로젝트의 메타데이터가 저장된 파일로, 애플리케이션에 필요한 의존성(dependencies)과 스크립트, 이름, 버전 정보 등이 포함됩니다.
+- **상세 내용**:
+    - `dependencies` 섹션에는 애플리케이션이 필요로 하는 npm 패키지들이 나열됩니다.
+    - `scripts` 섹션에는 `npm start` 명령어로 서버를 시작하는 스크립트가 정의될 수 있습니다
