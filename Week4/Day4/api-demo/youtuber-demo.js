@@ -27,7 +27,7 @@ db.set(id++, youtuber1);
 db.set(id++, youtuber2);
 db.set(id++, youtuber3);
 
-app.get('/youtuber/:id', function (req, res) {
+app.get('/youtubers/:id', function (req, res) {
     let { id } = req.params;
     id = parseInt(id);
     //console.log(id);
@@ -57,7 +57,7 @@ app.get('/youtubers', function (req, res) {
 app.use(express.json()); //req로 날아오는 body 값을 json으로 읽자
 // http 외 무듈인 '미들웨어' : json 설정
 
-app.post('/youtuber', function (req, res) {
+app.post('/youtubers', function (req, res) {
     //body에 숨겨져서 들어온 데이터를 화면에 출력해볼까
     console.log(req.body); //
 
@@ -67,3 +67,5 @@ app.post('/youtuber', function (req, res) {
         message: `${req.body.channelTitle}님, 유튜버 생활을 응원합니다`
    });
 })
+
+
