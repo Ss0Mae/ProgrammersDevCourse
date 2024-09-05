@@ -42,7 +42,6 @@ app.get('/youtubers/:id', function (req, res) {
 })
 
 app.get('/youtubers', function (req, res) {
-    let start = 0;
     db.forEach(function (youtuber) {
         console.log(youtuber);
     })
@@ -84,5 +83,21 @@ app.delete('/youtubers/:id', function (req, res) {
             message: `${channelTitle}님 다음에 또 뵙겠습니다.`
         })
     }
+    
+})
+
+app.delete('/youtubers', function (req, res) {
+    // db에 값이 1개 이상이면, 전체 삭제
+    // 값이 없으면 예외처리
+    if (db.size >= 1) {
+        db.clear();
+        res.json({
+            message: '전체 유튜버가 삭제되었습니다.'
+        })
+    } else {
+        res.json({
+            message: '삭제할 유튜버가 없습니다.'
+        })
+   }
     
 })
