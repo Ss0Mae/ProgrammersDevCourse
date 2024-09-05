@@ -68,4 +68,14 @@ app.post('/youtubers', function (req, res) {
    });
 })
 
-
+app.delete('/youtubers/:id', function (req, res) {
+    let { id } = req.params;
+    id = parseInt(id);
+
+    const channelTitle = db.get(id).channelTitle;
+     db.delete(id);
+    res.json({
+        message:`${channelTitle}님 다음에 또 뵙겠습니다.`
+    })
+    
+})
