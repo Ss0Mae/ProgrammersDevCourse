@@ -33,7 +33,7 @@ app.get('/youtubers/:id', function (req, res) {
     //console.log(id);
     const youtuber = db.get(id);
     if (youtuber == undefined) {
-        res.json({
+        res.status(404).json({
             message: "Wrong Access"
         })
     } else {
@@ -69,7 +69,7 @@ app.post('/youtubers', function (req, res) {
             message: `${req.body.channelTitle}님, 유튜버 생활을 응원합니다`
          });   
     } else {
-        res.status(400).json({
+        res.status(400).json({//서버가 요청의 구문을 인식하지 못했을때
             message:'요청 값을 제대로 보내주세요'
         })
     }
@@ -80,7 +80,7 @@ app.delete('/youtubers/:id', function (req, res) {
     id = parseInt(id);
     let youtuber = db.get(id);
 
-    if (youtuber) {
+    if (youtuber == undefined ) {
         res.status(404).json({
             message: `요청하신 ${id}번은 없는 정보입니다`
         })
