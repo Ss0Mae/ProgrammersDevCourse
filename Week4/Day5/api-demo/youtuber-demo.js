@@ -42,15 +42,17 @@ app.get('/youtubers/:id', function (req, res) {
 })
 
 app.get('/youtubers', function (req, res) {
-    db.forEach(function (youtuber) {
-        console.log(youtuber);
-    })
-
-    let jsonObject = {};
-    db.forEach(function (value, key) {
-        jsonObject[key] = value;
-    });
-    res.json(jsonObject)
+    let youtubers = {};
+    if (db.size!==0) {
+        db.forEach(function (value, key) {
+            youtubers[key] = value;
+        })
+        res.json(youtubers);
+    } else {
+        res.status(404).json({
+            message:'조회할 유튜버가 없습니다'
+        })
+    }
 })
 
 app.use(express.json()); //req로 날아오는 body 값을 json으로 읽자
@@ -59,12 +61,18 @@ app.use(express.json()); //req로 날아오는 body 값을 json으로 읽자
 app.post('/youtubers', function (req, res) {
     //body에 숨겨져서 들어온 데이터를 화면에 출력해볼까
     console.log(req.body); //
-
-    //등록..? Map(db)에 저장(set)을 해야한다.
-    db.set(id++, req.body);
-    res.json({
-        message: `${req.body.channelTitle}님, 유튜버 생활을 응원합니다`
-   });
+    const channelTitle = req.body.channelTitle;
+    if (channelTitle) {
+         //등록..? Map(db)에 저장(set)을 해야한다.
+        db.set(id++, req.body);
+        res.json({
+            message: `${req.body.channelTitle}님, 유튜버 생활을 응원합니다`
+         });   
+    } else {
+        res.status(400).json({
+            message:'요청 값을 제대로 보내주세요'
+        })
+    }
 })
 
 app.delete('/youtubers/:id', function (req, res) {
@@ -72,8 +80,8 @@ app.delete('/youtubers/:id', function (req, res) {
     id = parseInt(id);
     let youtuber = db.get(id);
 
-    if (youtuber == undefined) {
-        res.json({
+    if (youtuber) {
+        res.status(404).json({
             message: `요청하신 ${id}번은 없는 정보입니다`
         })
     } else {
@@ -108,8 +116,8 @@ app.put('/youtubers/:id', function (req, res) {
 
     let youtuber = db.get(id);
     let prevChannelTitle = youtuber.channelTitle
-    if (youtuber == undefined) {
-        res.json({
+    if (youtuber) {
+        res.status(404).json({
             message: `요청하신 ${id}번은 없는 정보입니다`
         })
     } else {
