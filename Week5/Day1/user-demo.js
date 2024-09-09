@@ -6,9 +6,36 @@ app.use(express.json()) // http 외 모듈 'json' 사용
 let db = new Map();
 let id = 1; //객체 식별 아이디
 
+function isExist(obj) {
+    if (Object.keys(obj).length) return true;
+    else return false;
+}
 // 로그인
 app.post('/login', function (req, res) {
+    console.log(req.body); //id, pwd
+
+    //id가 db에 저장된 회원인지 확인
+    const { userId, password } = req.body;
+    //let hasUserId = false;
+    let loginUser = {};
+    db.forEach(function (user, id) {
+        //console.log(user.userId);
+        if (user.userId === userId) {
+            loginUser = user;
+        } 
+    })
     
+    if (isExist(loginUser)) {
+        console.log('ID 매칭 성공');
+        //넘어온 pwd가 id에 맞는 비밀번호인지
+        if (loginUser.password === password) {
+            console.log("password 매칭성공");
+        } else {
+            console.log("password 매칭 실패");
+        }
+    } else {
+       console.log('입력하신 아이디는 없는 아이디 입니다.');
+    }
 })
 
 // 회원 가입
