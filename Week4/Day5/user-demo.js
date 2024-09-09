@@ -12,27 +12,26 @@ app.post('/login', function (req, res) {
 
     //id가 db에 저장된 회원인지 확인
     const { userId, password } = req.body;
-    let hasUserId = false;
-
+    //let hasUserId = false;
+    let loginUser = {};
     db.forEach(function (user, id) {
         //console.log(user.userId);
         if (user.userId === userId) {
-            console.log('ID 매칭 성공');
-            hasUserId = true;
-            //넘어온 pwd가 id에 맞는 비밀번호인지
-            if (user.password === password) {
-                console.log("password 매칭성공");
-            } else {
-                console.log("password 매칭 실패");
-            }
-        } else {
-            
-        }
+            loginUser = user;
+        } 
     })
-    if (!hasUserId) {
-        console.log('입력하신 아이디는 없는 아이디 입니다.');
+    
+    if (loginUser) {
+        console.log('ID 매칭 성공');
+        //넘어온 pwd가 id에 맞는 비밀번호인지
+        if (loginUser.password === password) {
+            console.log("password 매칭성공");
+        } else {
+            console.log("password 매칭 실패");
+        }
+    } else {
+       console.log('입력하신 아이디는 없는 아이디 입니다.');
     }
-
 })
 
 // 회원 가입
