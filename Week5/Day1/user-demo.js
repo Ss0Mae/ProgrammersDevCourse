@@ -8,31 +8,7 @@ let id = 1; //객체 식별 아이디
 
 // 로그인
 app.post('/login', function (req, res) {
-    console.log(req.body); //id, pwd
-
-    //id가 db에 저장된 회원인지 확인
-    const { userId, password } = req.body;
-    let hasUserId = false;
-
-    db.forEach(function (user, id) {
-        //console.log(user.userId);
-        if (user.userId === userId) {
-            console.log('ID 매칭 성공');
-            hasUserId = true;
-            //넘어온 pwd가 id에 맞는 비밀번호인지
-            if (user.password === password) {
-                console.log("password 매칭성공");
-            } else {
-                console.log("password 매칭 실패");
-            }
-        } else {
-            
-        }
-    })
-    if (!hasUserId) {
-        console.log('입력하신 아이디는 없는 아이디 입니다.');
-    }
-
+    
 })
 
 // 회원 가입
