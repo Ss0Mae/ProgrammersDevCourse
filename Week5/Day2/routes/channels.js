@@ -5,11 +5,11 @@ router.use(express.json());
 let db = new Map();
 let id = 1;
 
-function notFoundChannel({
+function notFoundChannel() {
     res.status(404).json({
-        message : "채널 정보를 찾을 수 없습니다"
+        message:'채널 정보를 찾을수 없습니다'
     })
-})
+}
 
 router
     .route('/')
