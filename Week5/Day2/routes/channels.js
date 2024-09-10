@@ -21,9 +21,10 @@ router
         }
     }) //채널 전체 조회
     .post((req, res) => {
-        const { channelTitle } = req.body;
+        const channelTitle = req.body.channelTitle;
+        let channel = req.body;
         if (channelTitle) {
-            db.set(id++, req.body);
+            db.set(id++, channel);
             res.status(201).json({
                 message: `${channelTitle}채널을 응원합니다`
             });
