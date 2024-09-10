@@ -9,11 +9,29 @@ router
     .route('/')
     .get((req, res) => {
         if (db.size) {
+            let { userId } = req.body;
             let channels = [];
-            db.forEach(function (value, key) {
-                channels.push(value);
-            })
-            res.status(200).json(channels);
+            //1) userId가 body에 없으면
+            if (userId === undefined) {
+                res.status(404).json({
+                    message: '로그인이 필요한 페이지 입니다'
+                })
+            } else {
+                db.forEach(function (value, key) {
+                    if (value.userId === userId) {
+                        channels.push(value);
+                    }
+                })
+                //예외 처리 2가지
+                //2) userId가 가진 채널이 없으면
+                if (channels.length === 0) {
+                    res.status(404).json({
+                        message: "조회할 채널이 없습니다."
+                    })
+                } else {
+                    res.status(200).json(channels);
+                }
+            }
         } else {
             res.status(404).json({
                 message:'조회할 채널이 없습니다'
