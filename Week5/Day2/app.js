@@ -6,4 +6,4 @@ const userRouter = require('./routes/users')// user -demo
 const channelRouter = require('./routes/channels');
 
 app.use("/", userRouter)
-app.use("/",channelRouter)
+app.use("/channels",channelRouter)

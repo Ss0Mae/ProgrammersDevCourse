@@ -6,7 +6,7 @@ let db = new Map();
 let id = 1;
 
 router
-    .route('/channels')
+    .route('/')
     .get((req, res) => {
         if (db.size) {
             let channels = [];
@@ -35,7 +35,7 @@ router
     }) //채널 개별 생성
 
 router
-    .route('/channels/:id')
+    .route('/:id')
     .put((req, res) => {
         let { id } = req.params;
         id = parseInt(id);
