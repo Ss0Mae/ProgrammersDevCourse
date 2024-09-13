@@ -12,8 +12,14 @@ const connection = mysql.createConnection({
 connection.query(
   'SELECT * FROM `users`',
   function (err, results, fields) {
-    console.log(results); // results contains rows returned by server
-    console.log(fields); // fields contains extra meta data about results, if available
+    //console.log(results); // results contains rows returned by server
+      for (let i = 0; i < results.length; i++){
+          let { id, email, name, created_at } = results[i];
+          console.log(id);
+          console.log(email);
+          console.log(name);
+          console.log(created_at);
+      }
   }
 );
 
