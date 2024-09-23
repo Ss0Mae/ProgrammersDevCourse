@@ -15,35 +15,28 @@ function isExist(obj) {
 }
 // 로그인
 router.post('/login', function (req, res) {
-    console.log(req.body); //id, pwd
 
     //id가 db에 저장된 회원인지 확인
-    const { userId, password } = req.body;
-    //let hasUserId = false;
+    const { email, password } = req.body;
+   
     let loginUser = {};
-    db.forEach(function (user, id) {
-        //console.log(user.userId);
-        if (user.userId === userId) {
-            loginUser = user;
-        } 
-    })
-    
-    if (isExist(loginUser)) {
-        //넘어온 pwd가 id에 맞는 비밀번호인지
-        if (loginUser.password === password) {
-            res.status(200).json({
-                message: `${loginUser.name}님 로그인 되었습니다`
-            })
-        } else {
-            res.status(400).json({
-                message: `비밀번호가 틀렸습니다`
-            })
+    conn.query(
+        `SELECT * FROM users WHERE email = ?`, email,
+        function (err, results, fields) {
+            loginUser = results[0];
+            if (loginUser && loginUser.password === password) {
+                res.status(200).json({
+                    message: `${loginUser.name}님 로그인 되었습니다.`
+                })
+            }
+            else {
+                res.status(404).json({
+                    message : "이메일 또는 비밀번호가 틀렸습니다"
+                })
+            }
+            
         }
-    } else {
-        res.status(404).json({
-            message: '입력하신 아이디는 없는 아이디 입니다.'
-        })
-    }
+    );  
 })
 
 // 회원 가입
