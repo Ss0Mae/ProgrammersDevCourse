@@ -2,13 +2,7 @@ const express = require('express');
 const router = express.Router();
 const conn = require('../mariadb')
 
-// A simple SELECT query
-conn.query(
-  'SELECT * FROM `users`',
-  function (err, results, fields) {
-    
-  }
-);
+
 
 router.use(express.json()) // http 외 모듈 'json' 사용
 
@@ -35,7 +29,6 @@ router.post('/login', function (req, res) {
     })
     
     if (isExist(loginUser)) {
-        
         //넘어온 pwd가 id에 맞는 비밀번호인지
         if (loginUser.password === password) {
             res.status(200).json({
@@ -75,19 +68,16 @@ router.post('/join', function (req, res) {
 router
     .route('/users')
     .get(function (req, res) {
-        let { userId } = req.body;
-    
-        const user = db.get(userId);
-        if (user) {
-            res.status(200).json({
-                userId: user.userId,
-                name : user.name
-            })
-        } else {
-            res.status(404).json({
-                message : '잘못된 아이디 번호입니다'
-            })
-        }
+        let { email } = req.body;
+        // A simple SELECT query
+        conn.query(
+            `SELECT * FROM users WHERE email = ?`, email,
+            function (err, results, fields) {
+                 res.status(200).json(results)
+                
+            }
+        );   
+            
     })
     .delete(function (req, res) {
         let { userId } = req.body;
