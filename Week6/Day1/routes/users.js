@@ -82,19 +82,15 @@ router
             
     })
     .delete(function (req, res) {
-        let { userId } = req.body;
-    
-        const user = db.get(userId);
-        if (user) {
-            db.delete(id);
-            res.status(200).json({
-            message: `${user.name}님 다음에 또 뵙겠습니다`
-            })
-        } else {
-            res.status(404).json({
-                message : '잘못된 아이디 번호입니다'
-            })
-        }
+        let { email } = req.body;
+        // A simple SELECT query
+        conn.query(
+            `DELETE FROM users WHERE email = ?`, email,
+            function (err, results, fields) {
+                 res.status(200).json(results)
+                
+            }
+        ); 
     })
 
 module.exports = router // 모듈화 진행
