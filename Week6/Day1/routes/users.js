@@ -51,13 +51,15 @@ router.post('/join', function (req, res) {
     console.log(req.body);
     // 입력된 body 객체가 비어 있지 않은지 확인
     if (Object.keys(req.body).length !== 0) {
-        // 예시로 ID를 부여하는 방식을 간단히 시뮬레이션
-        const {userId} = req.body
-        db.set(userId, req.body);
+        const { email, name, password, contact } = req.body;
 
-        res.status(201).json({
-            message: `${db.get(userId).name}님 환영합니다.`
-        });
+        conn.query(
+            `INSERT INTO users (email, name, password, contact) 
+            VALUES (?, ?, ?, ?)`, [email, name, password, contact],
+            function (err, results, fields) {
+                res.status(201).json(results);
+            }
+        )
     } else {
         res.status(400).json({
             message: `입력값을 다시 확인해주세요.`
