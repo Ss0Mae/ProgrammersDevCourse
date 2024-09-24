@@ -4,8 +4,12 @@ const conn = require('../mariadb')
 const { body,param, validationResult } = require('express-validator')
 router.use(express.json());
 
-let db = new Map();
-let id = 1;
+const validate = (req,res) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+        return res.status(400).json(err.array())
+    }
+}
 
 function notFoundChannel(res) {
     res.status(404).json({
@@ -16,13 +20,11 @@ function notFoundChannel(res) {
 router
     .route('/')
     .get(
-        body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.')
+        [
+            body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.'),
+            validate
+        ]
         , (req, res) => {//채널 전체 조회
-            const err = validationResult(req);
-            if (!err.isEmpty()) {
-                return res.status(400).json(err.array())
-            }
-
             const { userId } = req.body;
             let sql = `SELECT * FROM channels WHERE user_id = ?`
             conn.query(sql, userId,
@@ -115,14 +117,13 @@ router
                         return res.status(400).end();
                     }
 
-                    if (results.length)
-                        res.status(200).json(results)
-                    else
-                        notFoundChannel(res);
+                    if (results.affectedRows === 0) {
+                        return res.status(400).end();
+                    } else {
+                        res.status(200).json(results)   
+                    }
                 }
             )
-            
-            notFoundChannel();
         
     }) //채널 개별 삭제
 
