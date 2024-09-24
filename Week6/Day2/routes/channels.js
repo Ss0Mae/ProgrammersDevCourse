@@ -35,26 +35,22 @@ router
     })
 
     .post(
-        body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.')
+        [body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.'),
+         body('name').notEmpty().isString().withMessage('name은 문자여야 합니다')]
         , (req, res) => {
             const err = validationResult(req);
             if (!err.isEmpty()) {
-                console.log(err.array());
+                return res.status(400).json(err.array())
             }
             const { name, userId } = req.body;
-            if (name) {
-                let sql = `INSERT INTO channels (name, user_id) VALUES (?, ?)`;
-                let values = [name, userId];
-                conn.query(sql, values,
-                    function (err, results) {
-                        res.status(201).json(results);
-                    }
-                )
-            } else {
-                res.status(400).json({
-                    message : '요청값을 제대로 보내주세요'
-                })
-            }
+            let sql = `INSERT INTO channels (name, user_id) VALUES (?, ?)`;
+            let values = [name, userId];
+            conn.query(sql, values,
+                function (err, results) {
+                    res.status(201).json(results);
+                }
+            )
+            
     }) //채널 개별 생성
 
 router
