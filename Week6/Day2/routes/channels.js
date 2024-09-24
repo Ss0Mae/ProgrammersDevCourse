@@ -15,23 +15,24 @@ function notFoundChannel(res) {
 
 router
     .route('/')
-    .get((req, res) => {//채널 전체 조회
-        const { userId } = req.body;
+    .get(
+        body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.')
+        , (req, res) => {//채널 전체 조회
+            const err = validationResult(req);
+            if (!err.isEmpty()) {
+                return res.status(400).json(err.array())
+            }
 
-        let sql = `SELECT * FROM channels WHERE user_id = ?`
-        let channels = []
-        if (user_id) {
+            const { userId } = req.body;
+            let sql = `SELECT * FROM channels WHERE user_id = ?`
             conn.query(sql, userId,
                 function (err, results) {
                     if (results.length)
-                        channels = results;
+                        res.status(200).json(results)
                     else
                         notFoundChannel(res);
                 }
             )
-        }
-        else
-            res.status(400).end();
     })
 
     .post(
@@ -47,6 +48,10 @@ router
             let values = [name, userId];
             conn.query(sql, values,
                 function (err, results) {
+                    if (err) {
+                        console.log(err);
+                        return res.status(400).end();
+                    }
                     res.status(201).json(results);
                 }
             )
