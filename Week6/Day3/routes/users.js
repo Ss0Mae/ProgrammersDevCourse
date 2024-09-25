@@ -47,14 +47,14 @@ router.post(
                         name: loginUser.name
                     }, process.env.PRIVATE_KEY);
                     
+                    res.cookie("token", token);
                     
                     res.status(200).json({
                         message: `${loginUser.name}님 로그인 되었습니다.`,
-                        token: token
                     })
                 }
                 else {
-                    res.status(404).json({
+                    res.status(403).json({
                         message : "이메일 또는 비밀번호가 틀렸습니다"
                     })
                 }
