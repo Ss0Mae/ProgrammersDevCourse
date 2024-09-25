@@ -45,9 +45,14 @@ router.post(
                     const token = jwt.sign({
                         email: loginUser.email,
                         name: loginUser.name
-                    }, process.env.PRIVATE_KEY);
+                    }, process.env.PRIVATE_KEY, {
+                        expiresIn: '30m',
+                        issuer: "ssommae"
+                    });
                     
-                    res.cookie("token", token);
+                    res.cookie("token", token, {
+                        httpOnly:true
+                    });
                     
                     res.status(200).json({
                         message: `${loginUser.name}님 로그인 되었습니다.`,
