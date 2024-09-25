@@ -4,10 +4,12 @@ const conn = require('../mariadb')
 const { body,param, validationResult } = require('express-validator')
 router.use(express.json());
 
-const validate = (req,res) => {
+const validate = (req,res, next) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
         return res.status(400).json(err.array())
+    } else {
+        return next(); // 다음 할 일 (미들웨어, 함수)
     }
 }
 
@@ -24,7 +26,9 @@ router
             body('userId').notEmpty().isInt().withMessage('userId는 숫자여야 합니다.'),
             validate
         ]
-        , (req, res) => {//채널 전체 조회
+        , (req, res, next) => {//채널 전체 조회
+
+            validate(req, res);
             const { userId } = req.body;
             let sql = `SELECT * FROM channels WHERE user_id = ?`
             conn.query(sql, userId,
