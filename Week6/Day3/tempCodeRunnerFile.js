@@ -1,8 +1,4 @@
-var jwt = require('jsonwebtoken');
-
-require('dotenv').config({ path: './.env' });
-console.log('Private Key:', process.env.PRIVATE_KEY);
-// var token = jwt.sign({ foo: 'bar' }, process.env.PRIVATE_KEY);
+var token = jwt.sign({ foo: 'bar' }, process.env.PRIVATE_KEY);
 // //token 생성 = jwt 서명을 했다. (페이로드, 나만의 암호키) + SHA256
 
 // console.log(token);

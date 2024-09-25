@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const conn = require('../mariadb')
-const { body,param, validationResult } = require('express-validator')
-router.use(express.json()) // http 외 모듈 'json' 사용
+const conn = require('../mariadb');
+const { body, param, validationResult } = require('express-validator');
+
+//jwt, dotenv 모듈설정
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv')
+dotenv.config();
+
+router.use(express.json()); // http 외 모듈 'json' 사용
 
 const validate = (req,res,next) => {
     const err = validationResult(req);
@@ -18,7 +24,7 @@ router.post(
     '/login',
     [
         body('email').notEmpty().isEmail().withMessage('올바른 이메일 형식을 입력해주세요'),
-        body('password').notEmpty().isString.withMessage('비밀번호 확인 필요'),
+        body('password').notEmpty().isString().withMessage('비밀번호 확인 필요'),
         validate
     ],
     function (req, res) {
@@ -34,8 +40,17 @@ router.post(
                 loginUser = results[0];
 
                 if (loginUser && loginUser.password === password) { //email이 db에 저장된 회원인지 확인
+
+                    //토큰 발행
+                    const token = jwt.sign({
+                        email: loginUser.email,
+                        name: loginUser.name
+                    }, process.env.PRIVATE_KEY);
+                    
+                    
                     res.status(200).json({
-                        message: `${loginUser.name}님 로그인 되었습니다.`
+                        message: `${loginUser.name}님 로그인 되었습니다.`,
+                        token: token
                     })
                 }
                 else {
@@ -52,9 +67,9 @@ router.post(
     '/join',
     [
         body('email').notEmpty().isEmail().withMessage('올바른 이메일 형식을 입력해주세요'),
-        body('name').notEmpty().isString.withMessage('이름 확인 필요'),
-        body('password').notEmpty().isString.withMessage('비밀번호 확인 필요'),
-        body('contact').notEmpty().isString.withMessage('연락처 확인 필요'),
+        body('name').notEmpty().isString().withMessage('이름 확인 필요'),
+        body('password').notEmpty().isString().withMessage('비밀번호 확인 필요'),
+        body('contact').notEmpty().isString().withMessage('연락처 확인 필요'),
         validate
     ],
     function (req, res) {
