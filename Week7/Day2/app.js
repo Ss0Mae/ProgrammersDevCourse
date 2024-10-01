@@ -8,4 +8,7 @@ app.listen(process.env.PORT);
 
 const userRouter = require('./routes/users');
 
-app.use("/", userRouter);
+app.use("/users", userRouter);
+app.use("/users", userRouter);
+app.use("/users", userRouter);
+app.use("/users", userRouter);
