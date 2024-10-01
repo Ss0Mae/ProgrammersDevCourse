@@ -3,24 +3,20 @@ const router = express.Router();
 
 router.use(express.json());
 
-//회원가입
-router.post('/join', (req, res) => {
-    res.json('회원가입');
+//주문하기
+router.post('/orders', (req, res) => {
+    res.json('주문하기');
 });
 
-//로그인
-router.post('/login',(req, res) => {
-    res.json('로그인');
+//주문 목록 조회
+router.get('/orders',(req, res) => {
+    res.json('주문 목록 조회');
 });
 
-//비밀번호 초기화 요청
-router.post('/reset',(req, res) => {
-    res.json('비밀번호 초기화 요청');
+//주문 상세 상품 조회
+router.get('/orders/:id',(req, res) => {
+    res.json('주문 상세 상품 조회');
 });
 
-//비밀번호 초기화
-router.put('/reset', (req, res) => {
-    res.json('비밀번호 초기화');
-});
 
 module.exports = router;
