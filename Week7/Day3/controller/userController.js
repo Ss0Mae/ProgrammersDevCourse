@@ -8,10 +8,14 @@ dotenv.config();
 
 const join = (req, res) => {
     const { email, password } = req.body;
-    
-    let sql = 'INSERT INTO users (email, password) VALUES(?, ?)';
-    let values = [email, password];
+    let sql = 'INSERT INTO users (email, password, salt) VALUES(?, ?, ?)';
 
+    //password 암호화
+    const salt = crypto.randomBytes(10).toString('base64');
+    const hashPassword = crypto.pbkdf2Sync(password, salt, 10000, 10, 'sha512').toString('base64');
+
+    let values = [email, hashPassword, salt];
+    //로그인시 , 이메일 과 비밀번호(날 것) ⇒ salt 값 꺼내서 비밀번호 암호화 해보고 ⇒ db에 저장된 값과 비교
     conn.query(sql, values,
         (err, results) => {
             if (err) {
