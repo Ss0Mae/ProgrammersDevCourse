@@ -3,7 +3,6 @@ const router = express.Router();
 const {
     allBooks,
     bookDetail,
-    
 } = require('../controller/bookController');
 
 router.use(express.json());
