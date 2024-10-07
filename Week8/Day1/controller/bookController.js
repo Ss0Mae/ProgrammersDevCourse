@@ -6,21 +6,27 @@ dotenv.config();
 
 const allBooks = (req, res) => {
     let { category_id, news, limit, currentPage } = req.query;
-    // limit : page당 도서 수
+    // limit : page당 도서 수       ex 3
+    // currentPage : 현재 몇 페이지 ex 1, 2, 3...
+    // offset :                     ex 0, 3, 6, 9, 12 ...
+    //                              limit * (currentPage-1)   
+    let offset = limit * (currentPage - 1);
     let sql = `SELECT * FROM books`;
     let values = [];
     if (category_id && news) {
         sql += " WHERE category_id = ? AND pub_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND NOW()";
-        values = [category_id, news];
+        values= [category_id];
     }
     else if (category_id) {
         sql += " WHERE category_id = ?";
-        values = category_id;
+        values = [category_id];
     }
     else if (news) {
         sql += " WHERE pub_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND NOW()"
-        values = news;
     }
+    sql += " LIMIT ? OFFSET ?";
+    values.push(parseInt(limit), offset);
+
     conn.query(sql, values,
         (err, results)=> {
             if (err) {
