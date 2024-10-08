@@ -11,7 +11,7 @@ const allBooks = (req, res) => {
     // offset :                     ex 0, 3, 6, 9, 12 ...
     //                              limit * (currentPage-1)   
     let offset = limit * (currentPage - 1);
-    let sql = `SELECT * FROM books`;
+    let sql = `SELECT *, (SELECT count(*) FROM likes WHERE liked_book_id = books.id) AS likes FROM books`;
     let values = [];
     if (category_id && news) {
         sql += " WHERE category_id = ? AND pub_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND NOW()";
