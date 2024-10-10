@@ -5,11 +5,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const addToCart = (req, res) => {
-  
+    const { book_id, quantity, user_id } = req.body;
 
-    let sql = `INSERT INTO cartitems (user_id, liked_book_id) VALUES (?,?)`;
-    let values = [user_id, id];
-
+    let sql = `INSERT INTO cartitems (book_id, quantity, user_id) VALUES (?,?,?)`;
+    let values = [book_id, quantity, user_id];
     conn.query(sql, values,
         (err, results) => {
             if (err) {
