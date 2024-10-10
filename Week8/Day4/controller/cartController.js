@@ -21,12 +21,13 @@ const addToCart = (req, res) => {
 };
 
 const getCartItems = (req, res) => {
-    const { user_id } = req.body;
+    const { user_id, selected } = req.body; //selected -> array 
     let sql = `SELECT cartitems.id, book_id, title, summary, quantity, price 
                 FROM cartitems LEFT JOIN books 
                 ON cartitems.book_id = books.id
-                WHERE user_id = ?`;
-    conn.query(sql, user_id,
+                WHERE user_id = ? AND cartitems.id IN (?)`;
+    let values = [user_id, selected]
+    conn.query(sql, values,
         (err, results) => {
         if (err) {
             console.log(err);
@@ -51,6 +52,7 @@ const removeCartItem = (req, res) => {
         }
     )
 };
+
 
 module.exports = {
     addToCart,
