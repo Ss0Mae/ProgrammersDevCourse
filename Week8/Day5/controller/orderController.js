@@ -7,7 +7,7 @@ const order = (req, res) => {
 
     let sql = `INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?);`;
     let delivery_id = 3;
-    let order_id;
+    let order_id = 2;
     let values = [delivery.address, delivery.receiver, delivery.contact];
     // conn.query(sql, values,
     //     (err, results) => {
@@ -22,14 +22,29 @@ const order = (req, res) => {
     sql = `INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) 
             VALUES (?, ?, ?, ?, ?);`;
     values = [firstBookTitle, totalQuantity, totalPrice, userId, delivery_id];
-    conn.query(sql, values,
+    // conn.query(sql, values,
+    //     (err, results) => {
+    //         if (err) {
+    //             console.log(err);
+    //             return res.status(StatusCodes.BAD_REQUEST).end();
+    //         }
+    //         order_id = results.insertId;
+    //         console.log(order_id);
+    //         return res.status(StatusCodes.OK).json(results);
+    //     }
+    // )
+
+    sql = `INSERT INTO orderedBook (order_id, book_id, quantity) VALUES ?;`;
+    values = [];
+    items.forEach((item) => {
+        values.push([order_id, item.book_id, item.quantity]);
+    })
+    conn.query(sql, [values],
         (err, results) => {
             if (err) {
                 console.log(err);
                 return res.status(StatusCodes.BAD_REQUEST).end();
             }
-            order_id = results.insertId;
-            console.log(order_id);
             return res.status(StatusCodes.OK).json(results);
         }
     )
