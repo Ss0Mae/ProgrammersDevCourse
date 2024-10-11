@@ -3,18 +3,33 @@ const { StatusCodes } = require('http-status-codes');
 
 //주문 하기
 const order = (req, res) => {
-    const { items, delivery, totalQuantity, totalPrice,userId } = req.body;
+    const { items, delivery, totalQuantity, totalPrice,userId, firstBookTitle } = req.body;
 
     let sql = `INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?);`;
-    let delivery_id;
+    let delivery_id = 3;
+    let order_id;
     let values = [delivery.address, delivery.receiver, delivery.contact];
+    // conn.query(sql, values,
+    //     (err, results) => {
+    //         if (err) {
+    //             console.log(err);
+    //             return res.status(StatusCodes.BAD_REQUEST).end();
+    //         }
+    //         delivery_id = results.insertId;
+    //         return res.status(StatusCodes.OK).json(results);
+    //     }
+    // )
+    sql = `INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) 
+            VALUES (?, ?, ?, ?, ?);`;
+    values = [firstBookTitle, totalQuantity, totalPrice, userId, delivery_id];
     conn.query(sql, values,
         (err, results) => {
             if (err) {
                 console.log(err);
                 return res.status(StatusCodes.BAD_REQUEST).end();
             }
-            delivery_id = results.insertId;
+            order_id = results.insertId;
+            console.log(order_id);
             return res.status(StatusCodes.OK).json(results);
         }
     )
