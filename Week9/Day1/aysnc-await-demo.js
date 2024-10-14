@@ -8,3 +8,9 @@ let promise = new Promise((resolve, reject) => {
 // 할 일을 성공적으로 하면 resolve(결과)
 //         실패하면 reject(에러)
 });
+
+//promise의 기본 메서드 : then() => promise가 일을 모두 수행하고 호출해야하는 함수
+promise.then(
+    (result) => { console.log(result); },
+    (error) => { }
+);
