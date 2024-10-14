@@ -2,14 +2,14 @@ const conn = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
 
 //주문 하기
-const order = (req, res) => {
+const order = async (req, res) => {
     const { items, delivery, totalQuantity, totalPrice,userId, firstBookTitle } = req.body;
-
-    let sql = `INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?);`;
     let delivery_id;
     let order_id;
+
+    let sql = `INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?);`;
     let values = [delivery.address, delivery.receiver, delivery.contact];
-    conn.query(sql, values,
+    let [results] = await conn.query(sql, values,
         (err, results) => {
             if (err) {
                 console.log(err);
