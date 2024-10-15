@@ -33,9 +33,17 @@ const order = async (req, res) => {
     })
     results = await conn.query(sql, [values]);
     
-    return res.status(StatusCodes.OK).json(results[0]);
+    let result = await deleteCartItems(conn);
+    return res.status(StatusCodes.OK).json(result);
 };
 
+const deleteCartItems = async (conn) => {
+    let sql = "DELETE FROM cartitems WHERE id IN (?)";
+    let values = [1, 2, 3];
+    
+    let result = await conn.query(sql, [values]);
+    return result;
+}
 // 주문 목록 조회
 const getOrders = (req, res) => {
     res.json('주문 목록 조회');
