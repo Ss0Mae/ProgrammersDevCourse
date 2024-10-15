@@ -42,15 +42,28 @@ const order = async (req, res) => {
     return res.status(StatusCodes.OK).json(result);
 };
 
-const deleteCartItems = async (conn,items) => {
+const deleteCartItems = async (conn, items) => {
     let sql = "DELETE FROM cartitems WHERE id IN (?)";
     
     let result = await conn.query(sql, [items]);
     return result;
-}
+};
 // 주문 목록 조회
-const getOrders = (req, res) => {
-    res.json('주문 목록 조회');
+const getOrders = async (req, res) => {
+    const conn = await mariadb.createConnection({
+        host: '127.0.0.1',
+        user: 'root',
+        password: '1234',
+        database: 'Bookshop',
+        dateStrings: true
+    });
+
+    let sql = `SELECT orders.id, created_at, address, receiver, contact
+                book_title, total_quantity, total_price, 
+                FROM orders LEFT JOIN delivery
+                ON orders.delivery_id = delivery.id `;
+    let [rows, fields] = await conn.query(sql);
+    return res.status(StatusCodes.OK).json(rows);
 };
 
 // 주문 상세 조회
