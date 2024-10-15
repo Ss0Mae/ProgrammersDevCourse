@@ -25,23 +25,27 @@ const order = async (req, res) => {
     [results] = await conn.execute(sql, values);
     let order_id = results.insertId;
 
+
+    // items를 가지고 장바구니에서 book_id, quantity 조회
+    sql = `SELECT book_id , quantity FROM cartitems WHERE id IN (?)`;
+    let [orderItems, fields] = await conn.query(sql, [items]);
+
     //orderedBook 테이블 삽입
     sql = `INSERT INTO orderedBook (order_id, book_id, quantity) VALUES ?;`;
     values = [];
-    items.forEach((item) => {
+    orderItems.forEach((item) => {
         values.push([order_id, item.book_id, item.quantity]);
     })
     results = await conn.query(sql, [values]);
-    
-    let result = await deleteCartItems(conn);
+
+    let result = await deleteCartItems(conn,items);
     return res.status(StatusCodes.OK).json(result);
 };
 
-const deleteCartItems = async (conn) => {
+const deleteCartItems = async (conn,items) => {
     let sql = "DELETE FROM cartitems WHERE id IN (?)";
-    let values = [1, 2, 3];
     
-    let result = await conn.query(sql, [values]);
+    let result = await conn.query(sql, [items]);
     return result;
 }
 // 주문 목록 조회
