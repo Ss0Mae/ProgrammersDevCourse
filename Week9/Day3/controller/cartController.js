@@ -24,20 +24,26 @@ const addToCart = (req, res) => {
 
 const getCartItems = (req, res) => {
     const { selected } = req.body; //selected -> array 
-    let authorization = ensureAuthorization(req,res);
-    let sql = `SELECT cartitems.id, book_id, title, summary, quantity, price 
+    let authorization = ensureAuthorization(req, res);
+    if (authorization instanceof jwt.TokenExpiredError) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+            "message": "로그인 세션이 만료되었습니다. 다시 로그인 하세요."
+        });
+    } else {
+        let sql = `SELECT cartitems.id, book_id, title, summary, quantity, price 
                 FROM cartitems LEFT JOIN books 
                 ON cartitems.book_id = books.id
                 WHERE user_id = ? AND cartitems.id IN (?)`;
-    let values = [authorization.id, selected]
-    conn.query(sql, values,
-        (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(StatusCodes.BAD_REQUEST).end();
-        }
-        return res.status(StatusCodes.OK).json(results);
-    }) 
+        let values = [authorization.id, selected]
+        conn.query(sql, values,
+            (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(StatusCodes.BAD_REQUEST).end();
+                }
+                return res.status(StatusCodes.OK).json(results);
+            })
+    }
 };
 
 const removeCartItem = (req, res) => {
@@ -66,9 +72,7 @@ function ensureAuthorization(req,res) {
     } catch (err) {
         console.log(err.name);
         console.log(err.message);
-        return res.status(StatusCodes.UNAUTHORIZED).json({
-            "message" : "로그인 세션이 만료되었습니다. 다시 로그인 하세요."
-        })
+        return err;
     }
 };
 
