@@ -1,14 +1,20 @@
 const conn = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 dotenv.config();
 
 const addLike = (req, res) => {
     const { id } = req.params;
-    const { user_id } = req.body;
+   
+    let receivedJwt = req.headers["authorization"];
+    console.log("received jwt : ",receivedJwt);
+
+    let decodedJwt = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
+    console.log(decodedJwt);
 
     let sql = `INSERT INTO likes (user_id, liked_book_id) VALUES (?,?)`;
-    let values = [user_id, id];
+    let values = [decodedJwt.id, id];
 
     conn.query(sql, values,
         (err, results) => {
