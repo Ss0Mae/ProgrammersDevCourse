@@ -1,14 +1,16 @@
 const conn = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const addToCart = (req, res) => {
-    const { book_id, quantity, user_id } = req.body;
+    const { book_id, quantity} = req.body;
+    let authorization = ensureAuthorization(req);
 
     let sql = `INSERT INTO cartitems (book_id, quantity, user_id) VALUES (?,?,?)`;
-    let values = [book_id, quantity, user_id];
+    let values = [book_id, quantity, authorization.id];
     conn.query(sql, values,
         (err, results) => {
             if (err) {
@@ -53,6 +55,14 @@ const removeCartItem = (req, res) => {
     )
 };
 
+function ensureAuthorization(req) {
+     let receivedJwt = req.headers["authorization"];
+    console.log("received jwt : ",receivedJwt);
+
+    let decodedJwt = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
+    console.log(decodedJwt);
+    return decodedJwt;
+};
 
 module.exports = {
     addToCart,
