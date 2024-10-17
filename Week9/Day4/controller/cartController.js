@@ -1,9 +1,8 @@
 const conn = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
 const ensureAuthorization = require('../auth');
-dotenv.config();
+
 
 const addToCart = (req, res) => {
     const { book_id, quantity} = req.body;
