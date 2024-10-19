@@ -174,6 +174,79 @@ app.post("/api/v1/posts/:postId/comments", (req, res) => {
 
   res.status(200).json(newComment);
 });
+//14번
+app.get("/api/v1/users/:userId/activity-report", (req, res) => {
+  const userId = parseInt(req.params.userId);
+  
+  // 데이터 파일 경로
+  const usersFilePath = path.join(DATA_DIR, "users.json");
+  const postsFilePath = path.join(DATA_DIR, "posts.json");
+  const commentsFilePath = path.join(DATA_DIR, "comments.json");
+  
+  // 데이터 읽기
+  const users = readDataFromFile(usersFilePath);
+  const posts = readDataFromFile(postsFilePath);
+  const comments = readDataFromFile(commentsFilePath);
+
+  // 사용자 확인
+  const user = users.find((u) => u.id === userId);
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  // 사용자의 게시글과 댓글 가져오기
+  const userPosts = posts.filter((p) => p.user_id === userId);
+  const userComments = comments.filter((c) => c.user_id === userId);
+
+  // 활동이 없는 경우 처리
+  if (userPosts.length === 0 && userComments.length === 0) {
+    return res.status(200).json({ message: "No activity found" });
+  }
+
+  // 총 게시글 수와 총 댓글 수 계산
+  const totalPosts = userPosts.length;
+  const totalComments = userComments.length;
+
+  // 가장 최근 게시글과 댓글 찾기
+  let latestPost = null;
+  if (userPosts.length > 0) {
+    latestPost = userPosts.reduce((latest, current) => {
+      return new Date(current.created_at) > new Date(latest.created_at) ? current : latest;
+    });
+  }
+
+  let latestComment = null;
+  if (userComments.length > 0) {
+    latestComment = userComments.reduce((latest, current) => {
+      return new Date(current.created_at) > new Date(latest.created_at) ? current : latest;
+    });
+  }
+
+  // 응답 데이터 구성
+  const recentActivity = {};
+  if (latestPost) {
+    recentActivity.latestPost = {
+      postId: latestPost.id,
+      title: latestPost.title,
+      content: latestPost.content,
+      createdAt: latestPost.created_at
+    };
+  }
+  if (latestComment) {
+    recentActivity.latestComment = {
+      commentId: latestComment.id,
+      content: latestComment.content,
+      createdAt: latestComment.created_at
+    };
+  }
+
+  res.status(200).json({
+    userId,
+    totalPosts,
+    totalComments,
+    recentActivity
+  });
+});
 const PORT = 5678;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
