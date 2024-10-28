@@ -7,4 +7,3 @@ var student = {
     }
 };
 student.name = 'lee';
-student.score = 'kim';
