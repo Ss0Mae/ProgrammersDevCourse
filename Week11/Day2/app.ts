@@ -17,7 +17,7 @@ interface Student{
     stdId: number;
     stdName?: string;
     age?: number;
-    gender?: GenderType;
+    gender?: 'male' | 'female';
     course?: string;
     completed?: boolean;
     setName: (name: string) => void;
@@ -28,7 +28,7 @@ class MyStudent implements Student{
     stdId = 91011;
     stdName = 'park';
     age = 30;
-    gender= GenderType.Male;
+    gender: 'male' | 'female' = 'female';
     course= 'nodejs';
     completed = true;
     setName(name: string): void{
@@ -55,7 +55,7 @@ let std = {
     stdId: 91011,
     stdName: 'park',
     age: 30,
-    gender: GenderType.Male,
+    gender: 'male',
     course: 'nodejs',
     completed: true
 };
@@ -71,3 +71,8 @@ function setInfo(student : Student) :void {
 function Plus(a : number, b? : number) : number{
     return a + b;
 }
+
+const user: {name : string , age: number} = {
+    name: 'John',
+    age: 25
+};
