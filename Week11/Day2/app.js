@@ -60,4 +60,11 @@ function Plus(a, b) {
 var user = {
     name: 'John',
     age: 25
-};
+}; //객체 리터럴
+var numStr = 100;
+function convertToString(val) {
+    return String(val);
+}
+function convertToNumber(val) {
+    return Number(val);
+}

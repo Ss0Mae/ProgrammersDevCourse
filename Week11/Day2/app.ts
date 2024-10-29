@@ -75,4 +75,16 @@ function Plus(a : number, b? : number) : number{
 const user: {name : string , age: number} = {
     name: 'John',
     age: 25
-};
+}; //객체 리터럴
+
+type strOrNum = number | string;
+let numStr: strOrNum = 100;
+
+function convertToString(val: strOrNum): string{
+    return String(val);
+}
+
+function convertToNumber(val: strOrNum): number{
+    return Number(val);
+}
+
