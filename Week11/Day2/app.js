@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 // 변수의 데이터 타입 명시
 var stdId = 1111;
 var stdName = "lee";
@@ -68,3 +77,21 @@ function convertToString(val) {
 function convertToNumber(val) {
     return Number(val);
 }
+// Array
+var numbers = [1, 2, 3, 4, 5];
+var fruits = ['apple', 'banana', 'orange'];
+//union Array
+var mixedArray = [1, 'two', 3, 'four'];
+for (var i = 0; i < mixedArray.length; i++) {
+    console.log(mixedArray[i]);
+}
+var readOnlyArray = [1, 2, 3];
+//Tuple : 타입의 순서가 정해져 있다.
+var greeting = [1, 'hello', true];
+for (var i = 0; i < greeting.length; i++)
+    console.log(greeting[i]);
+//Spread 연산자
+var firstArray = [1, 2, 3];
+var secondArray = [4, 5, 6];
+var combinedArray = __spreadArray(__spreadArray([], firstArray, true), secondArray, true);
+console.log(combinedArray);

@@ -88,3 +88,24 @@ function convertToNumber(val: strOrNum): number{
     return Number(val);
 }
 
+// Array
+let numbers: number[] = [1, 2, 3, 4, 5];
+let fruits: string[] = ['apple', 'banana', 'orange'];
+
+//union Array
+let mixedArray: (number | string)[] = [1, 'two', 3, 'four'];
+for (let i = 0; i < mixedArray.length; i++){
+    console.log(mixedArray[i]);
+}
+
+let readOnlyArray: ReadonlyArray<number> = [1, 2, 3];
+
+//Tuple : 타입의 순서가 정해져 있다.
+let greeting: [number, string, boolean] = [1, 'hello', true];
+for (let i = 0; i < greeting.length; i++) console.log(greeting[i]); 
+
+//Spread 연산자
+let firstArray = [1, 2, 3];
+let secondArray = [4, 5, 6];
+let combinedArray = [...firstArray, ...secondArray];
+console.log(combinedArray);
