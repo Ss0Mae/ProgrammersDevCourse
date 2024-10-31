@@ -1,6 +1,18 @@
 .App {
   text-align: center;
 }
+
+.delbutton{
+  color : red;
+  background-color: white;
+  border : 1px solid red;
+  border-radius: 5px;
+  margin: 10px 20px;
+  padding : 10px 20px;
+  font-size : 16px;
+  font-weight: bold;
+  text-align: center;
+}
 .board{
   background-color: white;
   border-radius: 8px;
