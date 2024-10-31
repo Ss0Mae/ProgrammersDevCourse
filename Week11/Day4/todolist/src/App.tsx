@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import ClassCom from './ClassCom';
+import FuncCom from './FuncCom';
 function App() {
   let name = "React";
   const style = {
@@ -14,10 +15,8 @@ function App() {
   /**주석은 이렇게 작성합니다 */
 return (
     <div style = {style}> 
-      <h1 className="test">Hello {
-        name === 'React' ? (<h1>Yes</h1>) : (<h1>No</h1>)
-      }</h1>
-      <p>반갑습니다</p>
+    <ClassCom></ClassCom>
+    <FuncCom></FuncCom>
     </div>
   );
 }
