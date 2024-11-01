@@ -23,7 +23,7 @@
   font-size: 20px;
 }
 .container{
-  max-width: auto;
+  max-width: 1000px;
   margin : 0 auto;
   padding : 20px;
   background-color: #282c34;

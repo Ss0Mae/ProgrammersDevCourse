@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 // const Timer: React.FC = () => {
 //     const [seconds, setSeconds] = useState<number>(0);    
 
@@ -17,15 +18,20 @@ import { useState } from "react";
 // }
 
 const Clock: React.FC = () => {
-    const [time, setTime] = useState(new Date());    
-    setInterval(() => {
-        setTime(new Date());
-    },1000)
+    const [time, setTime] = useState<Date>(new Date());
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+
     return (
         <div>
-            현재 시간 : {time.toLocaleTimeString()}
+            <h1>현재 시간: {time.toLocaleTimeString()}</h1>
         </div>
-    )
-}
+    );
+};
 
 export default Clock;
