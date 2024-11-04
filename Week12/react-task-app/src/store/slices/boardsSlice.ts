@@ -1,4 +1,4 @@
-import { createSlice } from "../../../node_modules/@reduxjs/toolkit/dist/index";
+import { createSlice } from "@reduxjs/toolkit";
 import { IBoard } from "../../types/index";
 
 type TBoardsState = {
