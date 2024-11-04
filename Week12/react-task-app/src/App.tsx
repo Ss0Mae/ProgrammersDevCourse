@@ -1,37 +1,3 @@
-// import { useState } from 'react'
-// import './App.css'
-// import { appContainer, board,buttons } from './App.css'
-
-// function App() {
-
-//   return (
-//     <div>
-//       <button>
-//         hi
-//       </button>
-//     </div>
-//   )
-//   // return (
-//   //   <div className = {appContainer}>
-//   //     <div className={board}>
-
-//   //     </div>
-//   //     <div>
-//   //       <div className={buttons}>
-//   //           <button>
-//   //             이 게시판 삭제하기
-//   //           </button>
-//   //           <button>
-
-//   //           </button>
-//   //         </div>
-//   //     </div>
-
-//   //   </div>
-//   // )
-// }
-
-// export default App
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -42,6 +8,11 @@ function App() {
 
   return (
     <>
+      <div>
+        <button>
+          hi
+        </button>
+      </div>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
