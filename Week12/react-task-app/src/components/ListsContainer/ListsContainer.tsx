@@ -24,7 +24,7 @@ const ListsContainer: FC<TListsContainerProps> = ({
         ))
         
       }
-      <ActionButton></ActionButton>
+      <ActionButton/>
     </div>
   )
 }
