@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useState } from 'react'
-import DropDownForm from './DropDownForm/DropDownFrom'
+import DropDownForm from './DropDownForm/DropDownForm'
 import {IoIosAdd, IoIosSad} from 'react-icons/io'
 import { listButton, taskButton } from './ActionButton.css'
 type TActionButtonProps = {
