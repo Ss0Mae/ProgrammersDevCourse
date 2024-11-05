@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { FC } from 'react'
 import { useTypedSelector } from '../../hooks/redux';
 import SideForm from './SideForm/SideForm';
@@ -15,6 +15,14 @@ type TBoardListProps = {
 const BoardList: FC<TBoardListProps> = ({ activeBoardId, setActiveBoardId }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { boardArray } = useTypedSelector(state => state.boards);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    setIsFormOpen(!isFormOpen)
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  }
   return (
     <div className={container}>
       <div className={title}>
@@ -45,9 +53,9 @@ const BoardList: FC<TBoardListProps> = ({ activeBoardId, setActiveBoardId }) => 
       <div className={addSection}>
         {
           isFormOpen ?
-            <SideForm setIsFormOpen={setIsFormOpen} />
+            <SideForm inputRef = {inputRef} setIsFormOpen={setIsFormOpen} />
             :
-            <FiPlusCircle className = {addButton} onClick={()=>setIsFormOpen(!isFormOpen)}/>
+            <FiPlusCircle className = {addButton} onClick={handleClick}/>
         }
       </div>
          
