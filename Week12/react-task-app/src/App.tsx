@@ -18,7 +18,7 @@ function App() {
           setActiveBoardId={setActiveBoaidId}
         />
       <div className={board}>
-        <ListsContainer boards = {lists} boardId = {getActiveBoard.boardId}></ListsContainer>
+        <ListsContainer lists = {lists} boardId = {getActiveBoard.boardId}/>
       </div>
 
       <div className={buttons}>

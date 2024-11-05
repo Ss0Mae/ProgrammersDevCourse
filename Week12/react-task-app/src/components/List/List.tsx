@@ -8,6 +8,7 @@ import { setModalData } from '../../store/slices/modalSlice'
 import { IList, ITask } from '../../types'
 import ActionButton from '../ActionButton/ActionButton'
 import Task from '../Task/Task'
+import { deleteButton, header, listWrapper, name } from './List.css'
 
 type TListProps = {
   boardId: string;
@@ -41,10 +42,11 @@ const List : FC<TListProps>= ({
     dispatch(setModalActive(true));
   }
   return (
-    <div>
-      <div>
-        <div>{ list.listName}</div>
+    <div className = {listWrapper}>
+      <div className = {header}>
+        <div className = {name}>{ list.listName}</div>
         <GrSubtract
+          className = {deleteButton}
           onClick={ ()=>handleListDelete(list.listId)}
         />
       </div>
@@ -62,7 +64,9 @@ const List : FC<TListProps>= ({
             />
         </div>
       ))}
-      <ActionButton />
+
+      
+      <ActionButton/>
     </div>
   )
 }
