@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux'
 import { deleteTask, setModalActive, updateTask } from '../../store/slices/boardsSlice';
 import { addLog } from '../../store/slices/loggerSlice';
+import { buttons, closeButton, deleteButton, header, input, modalWindow, title, updateButton, wrapper } from './EditModal.css';
 
 const EditModal = () => {
 
@@ -87,35 +88,38 @@ const EditModal = () => {
   }
 
   return (
-    <div>
-      <div>
-        <div>
-          <div> {editingState.task.taskName} </div>
-          <FiX onClick={handleCloseButton}/>
+    <div className = {wrapper}>
+      <div className = {modalWindow}>
+        <div className = {header}>
+          <div className = {title}> {editingState.task.taskName} </div>
+          <FiX className={ closeButton} onClick={handleCloseButton}/>
         </div>
-        <div>제목</div>
+        <div className = {title}>제목</div>
         <input
+          className = {input}
           type='text'
           value={data.task.taskName}
           onChange={handleNameChange}
         />
-        <div>설명</div>
+        <div className = {title}>설명</div>
         <input
+          className = {input}
           type='text'
           value={data.task.taskDescription}
           onChange={handleDescriptionChange}
         />
-        <div>생성한 사람</div>
+        <div className = {title}>생성한 사람</div>
         <input
+          className = {input}
           type='text'
           value={data.task.taskOwner}
           onChange={handleAuthorChange}
         />
-        <div>
-          <button onClick = {handleUpdate}>
+        <div className = {buttons}>
+          <button onClick = {handleUpdate} className = {updateButton}>
             일 수정하기
           </button>
-          <button onClick = {handleDelete}>
+          <button onClick = {handleDelete} className = {deleteButton}>
             일 삭제하기
           </button>
         </div>
