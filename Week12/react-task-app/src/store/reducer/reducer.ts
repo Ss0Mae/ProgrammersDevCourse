@@ -3,6 +3,7 @@
 import { boardsReducer } from "../slices/boardsSlice";
 import { loggerReducer } from "../slices/loggerSlice";
 import { modalReducer } from "../slices/modalSlice";
+import { userReducer } from "../slices/userSlice";
 
 // 상태 관리 라이브러리(선택사항)
 
@@ -21,6 +22,7 @@ import { modalReducer } from "../slices/modalSlice";
 const reducer = {
     logger: loggerReducer,
     boards: boardsReducer,
-    modal : modalReducer
+    modal: modalReducer,
+    user : userReducer
 }
 export default reducer;
