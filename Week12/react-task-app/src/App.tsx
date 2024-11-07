@@ -8,7 +8,7 @@ import LoggerModal from './components/LoggerModal/LoggerModal'
 import { useTypedDispatch, useTypedSelector } from './hooks/redux'
 import { deleteBoard } from './store/slices/boardsSlice'
 import { addLog } from './store/slices/loggerSlice'
-
+import { DragDropContext } from 'react-beautiful-dnd'
 
 function App() {
   const [activeBoaidId, setActiveBoaidId] = useState('board-0');
@@ -48,6 +48,10 @@ function App() {
       alert(`최소 게시판 개수는 한 개입니다.`);
     }
   }
+
+  const handleDragEnd = (result : any) => {
+    console.log(result);
+  }
   return (
     
     <div className={appContainer}>
@@ -58,10 +62,13 @@ function App() {
           setActiveBoardId={setActiveBoaidId}
         />
       <div className={board}>
-        <ListsContainer lists = {lists} boardId = {getActiveBoard.boardId}/>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <ListsContainer lists = {lists} boardId = {getActiveBoard.boardId}/>
+        </DragDropContext>
       </div>
 
       <div className={buttons}>
+        
         <button className = {deleteBoardButton} onClick = {handleDeleteBoard}>
           이 게시판 삭제하기
         </button>
