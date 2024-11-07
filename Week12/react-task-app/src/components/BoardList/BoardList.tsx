@@ -7,9 +7,10 @@ import { useState } from 'react';
 import { container,title,addSection, addButton, boardItemActive, boardItem } from './BoardList.css';
 import clsx from 'clsx';
 import { GoSignOut } from 'react-icons/go'
-import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth'
 import { app } from '../../firebase';
-import { setUser } from '../../store/slices/userSlice';
+import { removeUser, setUser } from '../../store/slices/userSlice';
+import { useAuth } from '../../hooks/useAuth';
 type TBoardListProps = {
   activeBoardId: string;
   setActiveBoardId: React.Dispatch<React.SetStateAction<string>>;
@@ -23,7 +24,8 @@ type TBoardListProps = {
   const dispatch = useTypedDispatch();
 
   const auth = getAuth(app);
-   const provider = new GoogleAuthProvider();
+  const provider = new GoogleAuthProvider();
+   const { isAuth } = useAuth();
    
   const handleLogin = () => {
     signInWithPopup(auth, provider)
@@ -40,12 +42,25 @@ type TBoardListProps = {
       console.log(error);
     })
   }
+   
   const handleClick = () => {
     setIsFormOpen(!isFormOpen)
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
   }
+   
+   const handleSignOut = () => {
+     signOut(auth)
+       .then(() => {
+         dispatch(
+          removeUser()
+        )
+       })
+       .catch((error) => {
+         console.log(error);
+     })
+   }
   return (
     <div className={container}>
       <div className={title}>
@@ -80,8 +95,15 @@ type TBoardListProps = {
             :
             <FiPlusCircle className = {addButton} onClick={handleClick}/>
         }
-        <GoSignOut className={addButton} />
-        <FiLogIn className={addButton} onClick={handleLogin} />
+        {
+          isAuth
+            ?
+            <GoSignOut className={addButton} onClick = {handleSignOut} />
+            :
+            <FiLogIn className={addButton} onClick={handleLogin} />
+        }
+        
+        
       </div>
          
     </div>
