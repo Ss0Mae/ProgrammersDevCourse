@@ -8,9 +8,9 @@ function Header() {
 }
 
 const HeaderStyle = styled.header`
-    background-color: #333;
+    background-color : ${({ theme }) => theme.color.background};
     h1{
-        color:white;
+       color : ${({ theme }) => theme.color.primary};
     }
 `
 export default Header;
