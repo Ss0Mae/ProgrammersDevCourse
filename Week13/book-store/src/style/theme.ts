@@ -1,5 +1,5 @@
 
-type ThemeName = 'light' | 'dark';
+export type ThemeName = 'light' | 'dark';
 type ColorKey = 'primary' | 'background' | 'secondary' | 'third';
 
 interface Theme {
@@ -26,3 +26,13 @@ export const dark : Theme = {
         third: "darkgreen"
     },
 };
+
+export const getTheme = (themeName: ThemeName) => {
+    switch (themeName) {
+        case "light":
+            return light;
+        case "dark":
+            return dark;
+    }
+
+}
