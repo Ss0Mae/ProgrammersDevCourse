@@ -22,5 +22,5 @@ describe('Title 컴포넌트 테스트', () => {
         );
         const title = screen.getByText('제목 테스트');
         expect(title).toHaveStyle('font-size: 1.5rem');
-    }
+    });
 });
