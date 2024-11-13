@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchCategory } from "../api/category.api";
+import { Category } from "../model/category.model";
 
 export const useCategory = () => {
     const [category, setCategory] = useState<Category[]>([]);

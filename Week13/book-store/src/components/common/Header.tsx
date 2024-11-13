@@ -38,7 +38,7 @@ function Header() {
                         <FaSignInAlt/>로그인</a>
                     </li>
                     <li>
-                        <a href="/login">
+                        <a href="/signup">
                         <FaRegUser/>회원가입</a>
                     </li>
                 </ul>
