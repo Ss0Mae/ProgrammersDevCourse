@@ -15,12 +15,7 @@ export interface SignupProps {
 const Signup = () => {
     const navigate = useNavigate();
     const showAlert = useAlert();
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const handleSubmit = (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     console.log(`email : ${email}, password : ${password}`);
-    // }
+    
     const { register, handleSubmit, formState: { errors } } = useForm<SignupProps>();
     const onSubmit = (data: SignupProps) => {
         signup(data).then((res)=> {
@@ -60,7 +55,7 @@ const Signup = () => {
     </>
   )
 }
-const SignupStyle = styled.div`
+export const SignupStyle = styled.div`
     max-width : ${({ theme }) => theme.layout.width.small};
     margin : 80px auto;
     fieldset{
