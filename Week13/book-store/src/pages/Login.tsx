@@ -26,7 +26,9 @@ const Login = () => {
             storeLogin(res.token);
             showAlert('로그인 되었습니다');
             navigate('/');
-        })
+        }, (error) => {
+            showAlert('로그인이 실패했습니다');
+        });
     }
     return (
     <>
