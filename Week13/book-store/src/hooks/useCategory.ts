@@ -15,20 +15,21 @@ export const useCategory = () => {
                     return {
                         ...item,
                         isActive: item.id === Number(params.get('category_id'))
-                    }
-                })
-            })
+                    };
+                });
+            });
         } else {
             setCategory((prev) => {
                 return prev.map((item) => {
                     return {
                         ...item,
                         isActive: false
-                    }
-                })
-            })
+                    };
+                });
+            });
         }
-    }
+    };
+    
     useEffect(() => {
         fetchCategory().then((category) => {
             if(!category) return;
