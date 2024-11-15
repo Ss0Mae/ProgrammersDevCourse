@@ -17,6 +17,7 @@ function BooksFilter() {
         } else {
             newSearchParams.set(QUERYSTRING.CATEGORY_ID, id.toString());
         }
+        console.log(newSearchParams.toString());
         setSearchParams(newSearchParams);
     };
     
@@ -35,7 +36,8 @@ function BooksFilter() {
             <div className="category">
                 {
                     category.map((item) => (
-                        <Button size='medium' scheme={item.isActive ? 'primary' : 'normal'}
+                        <Button size='medium'
+                            scheme={item.isActive ? 'primary' : 'normal'}
                             key={item.id}
                         onClick = {()=>handleCategory(item.id)}>
                             {item.name}
@@ -44,7 +46,8 @@ function BooksFilter() {
                 }
             </div>
             <div className="new">
-                <Button size='medium' scheme={searchParams.get(QUERYSTRING.NEWS) ? 'primary' : 'normal'}
+                <Button size='medium'
+                    scheme={searchParams.get(QUERYSTRING.NEWS) ? 'primary' : 'normal'}
                     onClick={() => handleNews()}>
                     신간
                 </Button>
