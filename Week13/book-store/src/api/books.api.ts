@@ -1,4 +1,4 @@
-import { Book } from "../model/book.model";
+import { Book, BookDetail } from "../model/book.model";
 import { Pagination } from "../model/pagination.model";
 import { httpClient } from "./http";
 
@@ -13,13 +13,13 @@ interface FetchBooksResponse {
     books: Book[];
     pagination: Pagination;
 };
-export const fetchBooks = async (params : FetchBooksParams) => {
+export const fetchBooks = async (params: FetchBooksParams) => {
 
     try {
         const response = await httpClient.
-        get<FetchBooksResponse>("/books", {
-            params : params
-        });
+            get<FetchBooksResponse>("/books", {
+                params: params
+            });
         return response.data;
     } catch (error) {
         return {
@@ -30,4 +30,9 @@ export const fetchBooks = async (params : FetchBooksParams) => {
             },
         }
     }
-}
+};
+
+export const fetchBook = async (bookId: string) => {
+    const response = await httpClient.get<BookDetail>(`/books/${bookId}`);  
+    return response.data;
+};
