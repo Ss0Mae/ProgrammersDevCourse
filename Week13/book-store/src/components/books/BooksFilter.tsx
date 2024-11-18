@@ -11,11 +11,12 @@ function BooksFilter() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const handleCategory = (id: number | null) => {
+        //console.log("Category button clicked:", id);
         const newSearchParams = new URLSearchParams(searchParams);
         if (id === null) {
-            newSearchParams.delete(QUERYSTRING.CATEGORY_ID);
+            newSearchParams.delete('category_id');
         } else {
-            newSearchParams.set(QUERYSTRING.CATEGORY_ID, id.toString());
+            newSearchParams.set('category_id', id.toString());
         }
         console.log(newSearchParams.toString());
         setSearchParams(newSearchParams);
@@ -34,16 +35,14 @@ function BooksFilter() {
     return (
         <BooksFilterStyle>
             <div className="category">
-                {
-                    category.map((item) => (
+                {category.map((item) => (
                         <Button size='medium'
                             scheme={item.isActive ? 'primary' : 'normal'}
-                            key={item.id}
-                        onClick = {()=>handleCategory(item.id)}>
+                            key={item.id} onClick={() => handleCategory(item.id)}
+                        >
                             {item.name}
                         </Button>
-                    ))
-                }
+                    ))}
             </div>
             <div className="new">
                 <Button size='medium'
