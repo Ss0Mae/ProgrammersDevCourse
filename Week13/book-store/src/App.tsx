@@ -8,6 +8,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Login from "./pages/Login";
 import Books from "./pages/Books";
 import BookDetail from "./pages/BookDetail";
+import Button from "./components/common/Button";
 
 const router = createBrowserRouter([
   {
@@ -63,9 +64,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
+
     <BookStoreThemeProvider>
         <RouterProvider router={router}/>
     </BookStoreThemeProvider>
+
   )
   
 }
