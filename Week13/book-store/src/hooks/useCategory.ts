@@ -29,7 +29,9 @@ export const useCategory = () => {
             });
         }
     };
-    
+    useEffect(() => {
+        console.log("Category data:", category);
+    }, [category]);
     useEffect(() => {
         fetchCategory().then((category) => {
             if(!category) return;
