@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
+import AddToCart from '../components/book/AddToCart';
 import LikeButton from '../components/book/LikeButton';
 import Title from '../components/common/Title';
 import { useBook } from '../hooks/useBook';
@@ -77,7 +78,7 @@ const BookDetail = () => {
             <LikeButton book={book} onClick={likeToggle} />
           </div>
           <div className="add-cart">
-            <button>장바구니 담기</button>
+            <AddToCart book = {book}/>
           </div>
         </div>
       </header>
