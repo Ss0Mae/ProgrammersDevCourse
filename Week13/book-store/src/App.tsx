@@ -10,6 +10,7 @@ import Books from "./pages/Books";
 import BookDetail from "./pages/BookDetail";
 import Button from "./components/common/Button";
 import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
         <Home />
       </Layout>
     ),
-    errorElement : <Error/>
+    errorElement: <Error />,
   },
   {
     path: "/books",
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       <Layout>
         <Books />
       </Layout>
-    )
+    ),
   },
   {
     path: "/signup",
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       <Layout>
         <Signup />
       </Layout>
-    )
+    ),
   },
   {
     path: "/reset",
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
       <Layout>
         <ResetPassword />
       </Layout>
-    )
+    ),
   },
   {
     path: "/login",
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
       <Layout>
         <Login />
       </Layout>
-    )
+    ),
   },
   {
     path: "/book/:bookId",
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
       <Layout>
         <BookDetail />
       </Layout>
-    )
+    ),
   },
   {
     path: "/cart",
@@ -67,7 +68,15 @@ const router = createBrowserRouter([
       <Layout>
         <Cart />
       </Layout>
-    )
+    ),
+  },
+  {
+    path: "/order",
+    element: (
+      <Layout>
+        <Order />
+      </Layout>
+    ),
   },
 ]);
 
