@@ -1,13 +1,19 @@
 import React, { useMemo, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
+import Button from "../components/common/Button";
 import Empty from "../components/common/Empty";
 import Title from "../components/common/Title";
+import { useAlert } from "../hooks/useAlert";
 import { useCart } from "../hooks/useCart";
+import { OrderSheet } from "../model/order.model";
 
 const Cart = () => {
+  const { showAlert, showConfirm } = useAlert();
+  const navigate = useNavigate();
   const { carts, deleteCartItem, isEmpty } = useCart();
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const handleCheck = (id: number) => {
@@ -22,23 +28,40 @@ const Cart = () => {
     deleteCartItem(id);
   };
 
-    const totalQuantity = useMemo(() => {
-        return carts.reduce((acc, cart) => {
-            if (checkedItems.includes(cart.id)) {
-                return acc + cart.quantity;
-            }
-            return acc;
-        }, 0);
-    }, [carts, checkedItems]);
+  const totalQuantity = useMemo(() => {
+    return carts.reduce((acc, cart) => {
+      if (checkedItems.includes(cart.id)) {
+        return acc + cart.quantity;
+      }
+      return acc;
+    }, 0);
+  }, [carts, checkedItems]);
 
-    const totalPrice = useMemo(() => {
-        return carts.reduce((acc, cart) => {
-            if (checkedItems.includes(cart.id)) {
-                return acc + cart.price * cart.quantity;
-            }
-            return acc;
-        }, 0);
-    }, [carts, checkedItems]);
+  const totalPrice = useMemo(() => {
+    return carts.reduce((acc, cart) => {
+      if (checkedItems.includes(cart.id)) {
+        return acc + cart.price * cart.quantity;
+      }
+      return acc;
+    }, 0);
+  }, [carts, checkedItems]);
+
+  const handleOrder = () => {
+    if (checkedItems.length === 0) {
+      showAlert("주문할 도서를 선택해주세요.");
+      return;
+    }
+    const orderData: Omit<OrderSheet, "delivery"> = {
+      items: checkedItems,
+      totalPrice,
+      totalQuantity,
+      firstBookTitle: carts[0].title,
+    };
+
+    showConfirm("주문하시겠습니까?", () => {
+      navigate("/order", { state: orderData });
+    });
+  };
   return (
     <>
       <Title size="large">장바구니</Title>
@@ -61,6 +84,9 @@ const Cart = () => {
                 totalQuantity={totalQuantity}
                 totalPrice={totalPrice}
               />
+              <Button size="large" scheme="primary" onClick={handleOrder}>
+                주문하기
+              </Button>
             </div>
           </>
         )}
@@ -91,6 +117,8 @@ const CartStyle = styled.div`
 
   .summary {
     display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 `;
 export default Cart;
