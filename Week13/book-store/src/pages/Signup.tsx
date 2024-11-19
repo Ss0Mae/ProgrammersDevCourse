@@ -14,7 +14,7 @@ export interface SignupProps {
 }
 const Signup = () => {
     const navigate = useNavigate();
-    const showAlert = useAlert();
+    const { showAlert } = useAlert();
     
     const { register, handleSubmit, formState: { errors } } = useForm<SignupProps>();
     const onSubmit = (data: SignupProps) => {
