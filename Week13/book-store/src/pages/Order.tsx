@@ -1,11 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { order } from "../api/order.api";
 import CartSummary from "../components/cart/CartSummary";
 import Button from "../components/common/Button";
 import InputText from "../components/common/inputText";
 import Title from "../components/common/Title";
+import FindAddressButton from "../components/order/FindAddressButton";
+import { useAlert } from "../hooks/useAlert";
 import { Delivery, OrderSheet } from "../model/order.model";
 import { CartStyle } from "./Cart";
 
@@ -13,12 +16,15 @@ interface DeliveryForm extends Delivery {
   addressDetail: string;
 }
 const Order = () => {
+  const { showAlert, showConfirm } = useAlert();
+  const navigate = useNavigate();
   const location = useLocation();
   const orderDataFromCart = location.state;
   const { totalQuantity, totalPrice, firstBookTitle } = orderDataFromCart;
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<DeliveryForm>();
 
@@ -30,6 +36,13 @@ const Order = () => {
         address: `${data.address} ${data.addressDetail}`,
       },
     };
+
+    showConfirm("주문하시겠습니까?", () => {
+      order(orderData).then(() => {
+        showAlert("주문이 완료되었습니다.");
+        navigate("/orderlist");
+      });
+    });
   };
   return (
     <>
@@ -49,9 +62,11 @@ const Order = () => {
                     {...register("address", { required: true })}
                   />
                 </div>
-                <Button size="medium" scheme="normal">
-                  주소 찾기
-                </Button>
+                <FindAddressButton
+                  onCompleted={(address) => {
+                    setValue("address", address);
+                  }}
+                />
               </fieldset>
               {errors.address && (
                 <p className="error-text">주소를 입력해주세요</p>
