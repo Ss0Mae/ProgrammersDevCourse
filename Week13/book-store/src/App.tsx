@@ -11,6 +11,7 @@ import BookDetail from "./pages/BookDetail";
 import Button from "./components/common/Button";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import OrderList from "./pages/OrderList";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Order />
+      </Layout>
+    ),
+  },
+  {
+    path: "/orderlist",
+    element: (
+      <Layout>
+        <OrderList />
       </Layout>
     ),
   },
